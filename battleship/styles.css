@@ -1,0 +1,132 @@
+body{
+    background: linear-gradient(135deg, #0f4c75 0%, #3282b8 50%, #bbe1fa 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: white;
+    overflow-x: auto;
+}
+
+.Container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 20px;
+    min-height: 100vh;
+    flex-wrap: wrap;
+}
+
+
+.HumanBoard, .ComputerBoard {
+    display: grid;
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(10, 50px);
+    justify-content: center;
+    gap: 4px;
+    padding: 4%;
+    box-shadow: inset 0 0 10px rgba(133, 40, 172, 0.5);
+    margin: auto;
+}
+
+.cell{
+    height: 55px;
+    width: 55px;
+    font-size: large;
+    text-align: center;
+}
+
+.cell:hover {
+    background-color: rgba(11, 8, 228, 0.2);
+    opacity: 70%;
+    border: 2px solid rgb(58, 48, 48);
+    cursor: crosshair; 
+}
+
+.row > div {
+    box-sizing: border-box;
+    background-color: #013a59; /* Kept one background color */
+    border: 1px solid black;
+    padding: 6px;
+    font-size: 10px;
+    text-align: center;
+}
+
+.Buttons{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: auto;
+}
+
+#resetB, #RandomB, #start{
+    box-shadow: inset 0 0 10px rgba(215, 89, 11, 0.5);
+    height: 80px;
+    width: 200px;
+    font-size: large;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid rgba(215, 89, 11, 0.3);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#resetB:hover, #RandomB:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        inset 0 0 15px rgba(215, 89, 11, 0.7),
+        0 4px 20px rgba(215, 89, 11, 0.3);
+    border-color: rgba(215, 89, 11, 0.6);
+    background: linear-gradient(135deg, rgba(215, 89, 11, 0.2), rgba(215, 89, 11, 0.1));
+}
+
+#resetB:active, #RandomB:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 0 20px rgba(215, 89, 11, 0.8);
+    background: linear-gradient(135deg, rgba(215, 89, 11, 0.3), rgba(215, 89, 11, 0.2));
+}
+
+#resetB:focus, #RandomB:focus {
+    outline: none;
+    box-shadow: 
+        inset 0 0 15px rgba(215, 89, 11, 0.6),
+        0 0 0 3px rgba(215, 89, 11, 0.3);
+}
+
+/* Pulse animation on focus */
+#resetB:focus, #RandomB:focus {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 
+            inset 0 0 15px rgba(215, 89, 11, 0.6),
+            0 0 0 3px rgba(215, 89, 11, 0.3);
+    }
+    50% {
+        box-shadow: 
+            inset 0 0 20px rgba(215, 89, 11, 0.8),
+            0 0 0 6px rgba(215, 89, 11, 0.1);
+    }
+    100% {
+        box-shadow: 
+            inset 0 0 15px rgba(215, 89, 11, 0.6),
+            0 0 0 3px rgba(215, 89, 11, 0.3);
+    }
+}
+
+#resetB::before, #RandomB::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+#resetB:hover::before, #RandomB:hover::before {
+    left: 100%;
+}

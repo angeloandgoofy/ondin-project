@@ -1,0 +1,34 @@
+ .overlay {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 660px;;
+      background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black overlay */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+}
+
+.overlay h1 {
+    color: rgb(255, 255, 255);
+    font-size: 2em;
+    z-index: 2;
+}
+ 
+.oButton {
+    width: 70px;
+    height: 40px;
+    opacity: 50%;
+  border-bottom: 3px solid #4fc3f7;
+}
+
+img {
+    width: 100%;
+    height: 660px;
+    top: 0;
+    position: relative;
+    padding: 0;
+    object-fit: cover;
+}

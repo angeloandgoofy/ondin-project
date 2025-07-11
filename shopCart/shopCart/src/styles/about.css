@@ -1,0 +1,51 @@
+.About {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #36454F; 
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  color: #f5f5f5;
+}
+
+.About > div {
+  flex: 1 1 250px;
+  min-width: 250px;
+}
+
+.About h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+  border-bottom: 2px solid #4fc3f7;
+  padding-bottom: 0.3rem;
+}
+
+.About p {
+  font-size: 1rem;
+  color: #e0e0e0;
+  margin-top: 0.5rem;
+  line-height: 1.6;
+}
+
+.About ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+
+.About li {
+  font-size: 0.95rem;
+  color: #dcdcdc;
+  margin: 0.5rem 0;
+  transition: color 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.About li:hover {
+  color: #81d4fa;
+  text-decoration: underline;
+}
