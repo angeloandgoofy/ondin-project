@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Cart() {
   const { setcount } = useOutletContext();
@@ -16,8 +16,30 @@ export default function Cart() {
     setCartItems({});
     setcount(0);
   }
-  
 
+    useEffect(() => {
+        sessionStorage.setItem("itemCounts", JSON.stringify(cartItems));
+
+        const total = Object.values(cartItems).reduce((acc, curr) => acc + curr.count, 0);
+        setcount(total);
+    }, [cartItems, setcount, setCartItems]);
+
+
+  const updateQuantity = (id, total) => {
+    total = Math.max(total, 0);
+    setCartItems(prevItems => ({
+        ...prevItems,
+        [id]: {
+        ...prevItems[id],
+        count: total
+        }
+    }));
+  }
+
+const total = Object.values(cartItems).reduce(
+  (acc, curr) => acc + curr.price * curr.count,
+  0
+);
   return ( 
     <div className="cart-container" style={{paddingTop: '30px'}}>
         <div className="cart-header">
@@ -59,17 +81,17 @@ export default function Cart() {
                         <p><strong>Subtotal:</strong> ${(item.price * item.count).toFixed(2)}</p>
                         <div className="quantity-controls">
                         <button
-                        onClick={() => updateQuantity(id, item.count - 1)}
-                        className="quantity-btn"
-                        aria-label="Decrease quantity"
+                            onClick={() => updateQuantity(id, item.count - 1)}
+                            className="quantity-btn"
+                            aria-label="Decrease quantity"
                         >
                         −
                         </button>
                         <span className="quantity-display">{item.count}</span>
                         <button
-                        onClick={() => updateQuantity(id, item.count + 1)}
-                        className="quantity-btn"
-                        aria-label="Increase quantity"
+                            onClick={() => updateQuantity(id, item.count + 1)}
+                            className="quantity-btn"
+                            aria-label="Increase quantity"
                         >
                         +
                         </button>
@@ -78,6 +100,11 @@ export default function Cart() {
                 ))}
             </div>
             )}
+
+            <div>
+                <p><strong>TOTAL: </strong> {total.toFixed(2)} </p>
+                <button onClick={clearCart}>CHECK OUT</button>
+            </div>
 
             <style>{`
             .cart-container {
@@ -123,23 +150,23 @@ export default function Cart() {
             }
 
             .quantity-btn {
-            width: 32px;
-            height: 32px;
-            border: 1px solid #d1d5db;
-            background: white;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.125rem;
-            transition: all 0.2s;
-            }
+                width: 32px;
+                height: 32px;
+                border: 1px solid #d1d5db;
+                background: white;
+                border-radius: 4px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.125rem;
+                transition: all 0.2s;
+                }
 
             .quantity-btn:hover {
-            background: #f3f4f6;
-            border-color: #9ca3af;
-            }
+                background: #f3f4f6;
+                border-color: #9ca3af;
+                }
 
             .quantity-display {
                 min-width: 40px;
