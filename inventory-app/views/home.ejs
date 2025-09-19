@@ -34,10 +34,25 @@
                       cursor: pointer;
                       border-radius: 6px;
                     "
-                    onclick="del_movie(movie.movie_id)">
+                    onclick="delMovie(`<%= movie.movie_id %>`)">
                       Delete
                   </button>
-
+                  <script>
+                    function delMovie(movie_id){
+                      const option = {
+                        method: 'DELETE'
+                      }
+                      let url = `/api/movies/:${movie_id}`
+                      console.log(url)
+                      fetch(url, option).then(Response => {
+                        if(Response){
+                          console.log("OK")
+                        }else{
+                          console.log("Error")
+                        }
+                      })
+                    }
+                  </script>
                 </div>
             </div>
           </li>

@@ -18,6 +18,7 @@ async function getCat_movies() {
       JOIN c_movies cm ON cm.movie_id = m.movie_id
       JOIN category c ON c.category_id = cm.category_id
     `);
+    console.log(rows);
     return rows;
   } catch (error) {
     console.error(error);
@@ -25,9 +26,13 @@ async function getCat_movies() {
   }
 }
 
-async function del_movie(m_name) {
-    await pool.query(`
-        DELETE FROM movies WHERE name = ($1)`, [m_name]);
+async function del_movie(id) {
+  try {
+    await pool.query(`DELETE FROM movies WHERE movie_id = $1`, [id]);
+  } catch (err) {
+    console.error('Error deleting movie:', err);
+    throw err; 
+  }
 }
 
 module.exports = {

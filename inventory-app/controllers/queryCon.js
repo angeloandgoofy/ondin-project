@@ -10,8 +10,22 @@ async function getCategories(req, res) {
   }
 }
 
-
+async function del_movie(req, res) {
+  try{
+    const {movie_id} = req.params;
+    await db.del_movie(Number(movie_id));
+    const movie_cat = await db.getCat_movies();
+      res.render('home', {
+        movie_cat: Array.isArray(movie_cat) ? movie_cat : [],
+        success: 'Movie deleted successfully'
+      });
+    }catch(err){
+    console.err("ERROR DELETING FROM DB");
+    res.status(500).send("Server error while deleting or fetching");
+  }
+}
 
 module.exports = {
-    getCategories
+    getCategories, 
+    del_movie
 };
