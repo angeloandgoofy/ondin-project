@@ -1,0 +1,89 @@
+.navBar {
+  position:fixed;
+  display: flex;
+  top: 0;
+  left: 0 ;
+  align-items: center;
+  gap: 50px;
+  box-shadow: 0px 0px 10px rgb(46, 41, 41);
+  width: 100%;
+  height: 50px;
+  z-index: 1000;
+  padding: 0;
+  border-radius: 10px;
+  justify-content: center;
+  background-color: rgb(23, 22, 22);
+}
+
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1); 
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  background-color: inherit;
+  color: rgb(255, 255, 255);
+  border: none;
+ 
+}
+
+.pulse:hover{
+  display: inline-block;
+  border-radius: 8px;
+  animation: pulse 2s;
+  background-color: rgb(80, 122, 122);
+  color: black;
+}
+
+.movie-card {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0px;
+  background-color: rgb(40, 39, 39);
+  width: 250px;
+  height: 200px;
+  border-radius: 10px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  overflow: hidden;
+}
+
+.movie-card:hover {
+  background-color: rgb(80, 122, 122);
+}
+.movie-card img{
+  width: 240px;
+  height: 180px;
+  object-fit: cover;
+}
+
+.movie-card .bottom {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+
+ul {
+  list-style: none;
+  padding-top: 20px;
+}
+
+body{
+  background-color: rgb(11, 10, 10);
+}
+
+h2, h3 {
+  color: white;
+}
