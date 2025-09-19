@@ -38,19 +38,21 @@
                       Delete
                   </button>
                   <script>
-                    function delMovie(movie_id){
+                    function delMovie(movie_id) {
                       const option = {
                         method: 'DELETE'
-                      }
-                      let url = `/api/movies/:${movie_id}`
-                      console.log(url)
-                      fetch(url, option).then(Response => {
-                        if(Response){
-                          console.log("OK")
-                        }else{
-                          console.log("Error")
+                      };
+                      const url = `/api/movies/${movie_id}`;
+                      console.log(url);
+                      fetch(url, option).then(response => {
+                        if (response.ok) {
+                          console.log("OK");
+                        } else {
+                          console.log("Error");
                         }
-                      })
+                      }).catch(err => {
+                        console.error("Fetch failed:", err);
+                      });
                     }
                   </script>
                 </div>

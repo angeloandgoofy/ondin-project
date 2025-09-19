@@ -13,6 +13,7 @@ async function getCategories(req, res) {
 async function del_movie(req, res) {
   try{
     const {movie_id} = req.params;
+    console.log("THIS IS THE MOVIE ID: ", movie_id);
     await db.del_movie(Number(movie_id));
     const movie_cat = await db.getCat_movies();
       res.render('home', {

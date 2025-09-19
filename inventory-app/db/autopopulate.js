@@ -40,8 +40,8 @@ VALUES
 
 INSERT INTO c_movies(movie_id, category_id)
 VALUES
-(1, 3), 
-(2, 5);
+(4, 3), 
+(5, 5);
 `;
 
 async function main() {
