@@ -3,18 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/navStyle.css"/>
   <link rel="stylesheet" href="/homeStyle.css" />
   <title>Movies & Categories</title>
 </head>
 <body>
-  <nav class="navBar">
-    <h2><button class="pulse" onclick="window.location.href='/'">Movies</button></h2>
-    <h2><button class="pulse" onclick="window.location.href='/search'">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="15" fill="white" viewBox="0 0 24 24">
-            <path d="M10 2a8 8 0 105.293 14.293l5.707 5.707-1.414 1.414-5.707-5.707A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z"/>
-        </svg>
-    </button></h2>
-  </nav>
+  <%- include('navbar') %>
+  <%- include('display', {movies: movies}) %>
   <main>
     <ul class="movie-list">
       <% movie_cat.forEach(movie => { %>
@@ -22,39 +17,12 @@
           <li class="m-ctn">
             <h2> <%= movie.catname || "Uncategorized" %></h2>
             <div class="movie-card">
-                <img src="<%= movie.mimg %>" alt="<%= movie.mname %> poster" class="bg-img"/>
+                <img src="<%= movie.mimg %>" alt="<%= movie.mname %> poster"/>
                 <div class="bottom">
                     <h3><%= movie.mname %></h3>
-                    <button style="
-                      background-color: rgb(127, 0, 0);
-                      border: none;
-                      color: white;
-                      height: 20px;
-                      font: inherit;
-                      cursor: pointer;
-                      border-radius: 6px;
-                    "
-                    onclick="delMovie(`<%= movie.movie_id %>`)">
-                      Delete
-                  </button>
-                  <script>
-                    function delMovie(movie_id) {
-                      const option = {
-                        method: 'DELETE'
-                      };
-                      const url = `/api/movies/${movie_id}`;
-                      console.log(url);
-                      fetch(url, option).then(response => {
-                        if (response.ok) {
-                          console.log("OK");
-                        } else {
-                          console.log("Error");
-                        }
-                      }).catch(err => {
-                        console.error("Fetch failed:", err);
-                      });
-                    }
-                  </script>
+                    <form action="/<%= movie.movie_id %>/delete" method="POST" style="display:inline;">
+                      <button style="border-radius: 10px; background-color: rgb(165, 4, 4);" type="submit" onclick="return confirm('Are you sure you want to delete this user?');">Delete</button>
+                    </form>
                 </div>
             </div>
           </li>

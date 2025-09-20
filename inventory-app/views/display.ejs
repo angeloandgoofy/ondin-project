@@ -1,0 +1,9 @@
+<div class="display-ctn">
+    <% if(movies.length > 0) { %>
+        <% movies.forEach(movie => { %>
+            <img src="<%= movie.img_data %>" style="
+                object-fit: cover;
+            " />
+        <%})%>
+    <%}%>
+</div>

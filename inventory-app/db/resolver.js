@@ -10,6 +10,16 @@ async function categories() {
   }
 }
 
+async function movies(){
+  try{
+    const {rows} = await pool.query(`SELECT * FROM movies`);
+    return rows;
+  }catch(error){
+    console.error("Error fetching movies: ", error);
+    throw err;
+  }
+}
+
 async function getCat_movies() {
   try {
     const { rows } = await pool.query(`
@@ -18,10 +28,33 @@ async function getCat_movies() {
       JOIN c_movies cm ON cm.movie_id = m.movie_id
       JOIN category c ON c.category_id = cm.category_id
     `);
-    console.log(rows);
     return rows;
   } catch (error) {
     console.error(error);
+    throw error;
+  }
+}
+
+async function insertCat_movies(mId, cId) {
+  try{
+    await pool.query(`
+      INSERT INTO c_movies(movie_id, category_id)
+      VALUES ($1, $2)
+    `, [mId, cId]);
+  }catch(error){
+    console.error("Error inserting into category movie table");
+    throw error;
+  }
+}
+
+async function insertMovies(name, img_data){
+  try{
+    await pool.query(`
+      INSERT INTO movies(name, img_data)
+      VALUES ($1, $2)
+    `, [name, img_data])
+  }catch(error){
+    console.error("Error inserting movie");
     throw error;
   }
 }
@@ -37,6 +70,7 @@ async function del_movie(id) {
 
 module.exports = {
   categories, 
+  movies,
   getCat_movies, 
   del_movie
 };
