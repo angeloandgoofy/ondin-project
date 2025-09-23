@@ -1,27 +1,76 @@
 .display-ctn {
   width: 100%;
-  height: 300px;
+  max-width: 1200px;
+  margin: 0 auto;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  padding-top: 60px;  
-  gap: 5px;
+  position: relative;
+  background: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  padding: 15px;
+  
 }
 
+.slideshow-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.poster-container {
+  display: flex;
+  align-items: center;
+  transition: transform 0.5s ease-in-out;
+  gap: 15px;
+}
+
+.Poster {
+  flex-shrink: 0;
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+
+.Poster:hover {
+  transform: scale(1.05);
+}
+
+.controls {
+  background-color: rgb(80, 122, 122);
+  border: none;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 100%;
+
+}
+
+.prev {
+  left: 10px;
+}
+.next {
+  right: 10px;
+}
+
+.movie-ctn {
+  display: flex;
+  gap: 15px;
+}
 
 .movie-card {
-  margin-top: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 0px;
   background-color: rgb(40, 39, 39);
   width: 250px;
-  height: 200px;
+  height: 250px;
   border-radius: 10px;
-  padding-top: 4px;
-  padding-bottom: 4px;
   overflow: hidden;
 }
 
@@ -38,6 +87,10 @@
 .movie-card .bottom {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
+}
+
+.hidden{
+  display: none;
 }

@@ -1,20 +1,19 @@
-.navBar {
+.navbar {
   position:fixed;
   display: flex;
   top: 0;
   left: 0 ;
   align-items: center;
   gap: 50px;
-  box-shadow: 0px 0px 10px rgb(46, 41, 41);
   width: 100%;
   height: 50px;
   z-index: 1000;
   padding: 0;
   border-radius: 10px;
   justify-content: center;
+  box-shadow: 0px 0px 10px rgb(46, 41, 41);
   background-color: rgb(23, 22, 22);
 }
-
 
 @keyframes pulse {
   0% {
@@ -50,6 +49,7 @@ ul {
 
 body{
   background-color: rgb(11, 10, 10);
+  padding-top: 50px;
 }
 
 h2, h3 {

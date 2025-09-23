@@ -3,15 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/navStyle.css"/>
+    <link rel="stylesheet" href="/navStyle.css"/>
+    <style>
+        form {
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;            
+        }
+        
+        form::before {
+            content: '🎬';
+            font-size: 3rem;
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        button{
+            border-radius: 8px;
+            border: none;
+
+        }
+
+        input[type="text"], 
+        input[type="password"] {
+            width: 100%;
+            border: none;
+        }
+
+        input[type="radio"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #4ecdc4;
+            border-radius: 50%;
+            margin-right: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        input[type="radio"]:checked {
+            background-color: #4ecdc4;
+        }
+
+        input[type="radio"]:checked::after{
+            content: '';
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            height: 8px;
+            width: 8px;
+            transform: translate(-50%, -50%);
+            position:absolute;
+        }
+
+    </style>
     
 </head>
 <body>
     <%- include('navbar') %>
     <main>
-        <div class="ctn-form">
-            <form method="POST"">
-                <input required type="text" name="movie">
+        <div class="ctn-form" 
+        style="
+            background-color: rgb(40, 39, 39);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            border-radius: 10px;
+            height: auto;
+            width: 100%;
+            max-width: 600px;
+            top: 50px;
+            left: 50%;
+            transform: translate(-50%, 30%);
+            min-width: auto;
+        ">
+            <form method="POST">
+                <label style="color: white;">
+                    Movie: 
+                </label>
+                <input required type="text" name="movie" placeholder="Home alone"> </br>
+                <label style="color: white;">
+                    Img-Link:
+                </label>
+                <input required type="text" name="img_data"> </br>
+                <label style="color: white;">
+                    Password: 
+                </label> 
+                <input type="password" name="Password"/> </br>
+                <% category.forEach(cat => { %>
+                <label style="color:white;">
+                    <input type="radio" name="category" value="<%= cat.category_id %>" required>
+                    <%= cat.name %>
+                </label>
+
+                <% }) %>
+                <button type="submit">Submit</button>
             </form>
         </div>
     </main>

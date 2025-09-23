@@ -1,9 +1,83 @@
 <div class="display-ctn">
-    <% if(movies.length > 0) { %>
-        <% movies.forEach(movie => { %>
-            <img src="<%= movie.img_data %>" style="
-                object-fit: cover;
-            " />
-        <%})%>
-    <%}%>
+    <div class="slideshow-wrapper">
+        <div class="poster-container" id="posterContainer">
+            <img class="Poster" src="https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg" alt="spider-man" />
+            <img class="Poster" src="https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg" alt="The Godfather" />
+            <img class="Poster" src="https://image.tmdb.org/t/p/w500/sOHqdY1RnSn6kcfAHKu28jvTebE.jpg" alt="Pulp Fiction" />
+            <img class="Poster" src="https://image.tmdb.org/t/p/w500/wuMc08IPKEatf9rnMNXvIDxqP4W.jpg" alt="The Matrix" />
+            <img class="Poster" src="https://image.tmdb.org/t/p/w500/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg" alt="Shawshank Redemption" />
+            <img class="Poster" src="https://m.media-amazon.com/images/M/MV5BMTg3ODY5ODI1NF5BMl5BanBnXkFtZTgwMTkxNTYxMTE@._V1_FMjpg_UX1000_.jpg" alt="AmericanPie"/>
+            <img class="Poster" src="https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg" alt="Inception" />
+            <img class="Poster" src="https://image.tmdb.org/t/p/w500/aKuFiU82s5ISJpGZp7YkIr3kCUd.jpg" alt="Goodfellas" />
+            <img class="Poster" src="https://image.tmdb.org/t/p/w500/ek8e8txUyUwd2BNqj6lFEerJfbq.jpg" alt="Superbad" />
+        </div>
+    <button class="controls prev" onclick="previousSlide()">‹</button>
+    <button class="controls next" onclick="nextSlide()">›</button>
+    </div>
 </div>
+
+<script> 
+
+class MovieSlideShow {
+    constructor() {
+        this.container = document.getElementById('posterContainer');
+        this.posters = this.container.querySelectorAll('.Poster');
+
+        this.currentIndex = 0;
+        this.posterperview = this.calculatePoster();
+        this.totalSlides = Math.max(0, this.posters.length - this.posterperview + 1);
+        this.handleResize();
+        this.autoPlay();
+    }
+
+    calculatePoster() {
+        const viewField = this.container.parentElement.offsetWidth;
+        const poster = 200;
+        const gap = 15;
+        return Math.max(1, Math.floor((viewField)/(poster + gap)));
+    }
+
+    updateSlides(){
+        const translateX = -this.currentIndex * (200 + 15);
+        this.container.style.transform = `translateX(${translateX}px)`;
+
+    }
+
+    prevSlide(){
+        this.currentIndex = this.currentIndex === 0 ? this.totalSlides - 1: this.currentIndex - 1;
+        this.updateSlides();
+    }
+
+    nextSlide() {
+        this.currentIndex = (this.currentIndex + 1) % this.totalSlides;
+        this.updateSlides();
+    }
+
+    autoPlay() {
+        setInterval(() => this.nextSlide(), 4000);
+    }
+
+    resize() {
+        this.currentPoster = this.calculatePoster();
+        if(this.posterperview !== this.currentPoster){
+            this.posterperview = this.currentPoster;
+            this.totalSlides = Math.max(1, this.posters.length - this.posterperview + 1);
+            this.currentIndex = Math.min(this.currentIndex, this.totalSlides -1);
+            this.updateSlides();
+        }
+    }
+
+    handleResize() {
+        window.addEventListener('resize', () => this.resize());
+    }
+}
+
+function previousSlide() {
+    slideShow.prevSlide();
+}
+function nextSlide() {
+    slideShow.nextSlide();
+}
+const slideShow = new MovieSlideShow();
+
+</script>

@@ -1,12 +1,9 @@
 const { Router } = require('express');
-const db = require('../controllers/queryCon');
+const queryCon = require('../controllers/queryCon');
 
 const searchRouter = Router();
 
-searchRouter.get('/', (req, res) => {
-    res.render('addMovies');
-});
-
-
+searchRouter.get("/search", queryCon.category);
+searchRouter.post("/search", queryCon.addMovietoCat);
 
 module.exports = searchRouter;
