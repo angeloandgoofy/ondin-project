@@ -12,45 +12,49 @@
   <%- include('display') %>
   <main>
     <ul class="movie-list">
-      <% movie_cat.forEach(movie => { %>
+      <% movie_cat.forEach((movie, index) => { %>
           <li class="m-ctn">
             <h2> <%= movie.category || "Uncategorized" %></h2>
             <div class="movie-ctn">
-              <% movie.movies.forEach(movie => { %>
-                <div class="movie-card">
-                  <img src="<%= movie.img %>" alt="<%= movie.name %> poster"/>
-                  <div class="bottom">
-                    <h3><%= movie.name %></h3>
-                    <div id="delete-form-<%= movie.movie_id %>" class="hidden"
-                     style="
-                      padding: 10px;
-                      padding-left: 50px;
-                      padding-right: 50px;
-                      "
-                     >
-                      <form action="/<%= movie.movie_id %>/delete" method="POST" style="display:inline;">
-                        <label>Password:</label>
-                        <input type="password" name="password"/><br/>
-                        <button style="border-radius: 10px; background-color: rgb(80, 122, 122);" type="submit">
-                          Enter
-                        </button>
-                        <button
-                          style="border-radius: 10px; background-color: rgb(80, 122, 122);"
-                          type="button"
-                          onclick="document.getElementById('delete-form-<%= movie.movie_id %>').classList.toggle('hidden')">
-                          close
-                        </button>
-                      </form>
+                <div class="post-container" id="postCon<%=index%>">                
+                  <% movie.movies.forEach(movie => { %>
+                  <div class="movie-card">
+                    <img class="Posters" src="<%= movie.img %>" alt="<% movie.name %> poster"/>
+                    <div class="bottom">
+                      <h3><%= movie.name %></h3>
+                      <div id="delete-form-<%= movie.movie_id %>" class="hidden"
+                       style="
+                        padding: 10px;
+                        padding-left: 50px;
+                        padding-right: 50px;
+                        "
+                       >
+                        <form action="/<%= movie.movie_id %>/delete" method="POST" style="display:inline;">
+                          <label>Password:</label>
+                          <input type="password" name="password"/><br/>
+                          <button style="border-radius: 10px; background-color: rgb(80, 122, 122);" type="submit">
+                            Enter
+                          </button>
+                          <button
+                            style="border-radius: 10px; background-color: rgb(80, 122, 122);"
+                            type="button"
+                            onclick="document.getElementById('delete-form-<%= movie.movie_id %>').classList.toggle('hidden')">
+                            close
+                          </button>
+                        </form>
+                      </div>
+                      <button
+                        style="border-radius: 10px; background-color: rgb(80, 122, 122);"
+                        type="button"
+                        onclick="document.getElementById('delete-form-<%= movie.movie_id %>').classList.toggle('hidden')">
+                        Delete
+                      </button>
                     </div>
-                    <button
-                      style="border-radius: 10px; background-color: rgb(80, 122, 122);"
-                      type="button"
-                      onclick="document.getElementById('delete-form-<%= movie.movie_id %>').classList.toggle('hidden')">
-                      Delete
-                    </button>
                   </div>
-                </div>
-                <% }) %>
+                  <% }) %>
+              </div>
+              <button class="controls prev" onclick="prev(<%= index %>)">‹</button>
+              <button class="controls next" onclick="next(<%= index %>)">›</button>
             </div>
           </li>
       <% }) %>
@@ -58,3 +62,82 @@
   </main>
 </body>
 </html>
+
+<script>
+  class slideMovies {
+    constructor() {
+      this.slideState = {};
+    }
+
+    getSlideState(index) {
+      if(!this.slideState[index]){
+        this.slideState[index] = {
+          currentIndex: 0,
+          container: document.getElementById(`postCon${index}`),
+          postperview: 0, 
+          posters: null,
+          totalSlide: 0
+        }
+      }
+      return this.slideState[index];
+    }
+
+    calculatepost(container) {
+      const widthC = container.parentElement.offsetWidth;
+      const poster = 250;
+      return Math.max(1, Math.floor(widthC / poster));
+    }
+
+    updateSliderData(index){
+      const state = this.getSlideState(index);
+      if(!state.container){
+        console.warn(`No conatiner found ofr index ${index}`)
+        return false;
+      }
+      state.posters = state.container.querySelectorAll('.movie-card');
+      state.postperview = this.calculatepost(state.container);
+      state.totalSlide = Math.max(0, state.posters.length - state.postperview + 1);
+
+    }
+
+    updateSlide(index) {
+      const state = this.getSlideState(index);
+      const translatex = -state.currentIndex * 250;
+      state.container.style.transform = `translateX(${translatex}px)`;
+    }
+    
+    prevSlide(index) {
+      this.updateSliderData(index);
+      const state = this.getSlideState(index);
+      state.currentIndex = state.currentIndex === 0 ? state.totalSlide : state.currentIndex - 1;
+      this.updateSlide(index);
+    }
+    
+    nextSlide(index) {
+      this.updateSliderData(index);
+      const state = this.getSlideState(index);
+      state.currentIndex = (state.currentIndex + 1) % state.totalSlide;
+      this.updateSlide(index);
+    }
+  }
+
+
+  function prev(index) {
+    slideButton.prevSlide(index);
+  }
+
+  function next(index) {
+    slideButton.nextSlide(index);
+  }
+
+  const slideButton = new slideMovies();
+
+
+
+  window.addEventListener('resize', () => {
+    Object.keys(slideButton, slideButton.slideState).forEach(index => {
+      slideButton.updateSliderData(index)
+    })
+  });
+  
+</script>
