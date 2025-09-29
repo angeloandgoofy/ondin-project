@@ -64,81 +64,124 @@
 </html>
 
 <script>
-function openOverlay(modelImg) {
-      if (document.querySelector('.overlay')) {
-        return;
-      }
-
-      const [index, url, title] = modelImg.split(',');
-      
-      const overlay = document.createElement('div');
-      const img = document.createElement('img');
-      const name = document.createElement('h1');
-      const closeButton = document.createElement('button');
-      const updateButton = document.createElement('button');
-
-      updateButton.classList.add('updae-button');
-      updateButton.textContent = 'update';
-      
-      closeButton.classList.add('close-button');
-      closeButton.textContent = '×';
-      closeButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        closeOverlay();
-      });
-
-
-      overlay.classList.add('overlay');
-      img.src = url;
-      img.alt = title + ' poster';
-      name.textContent = title;
-      
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-          closeOverlay();
-        }
-      });
-      
-      overlay.append(img, name, closeButton, updateButton);
-      document.body.appendChild(overlay);
-      
-      document.body.style.overflow = 'hidden';
-      
-      requestAnimationFrame(() => {
-        overlay.classList.add('show');
-      });
+  function openOverlay(modelImg) {
+    if (document.querySelector('.overlay')) {
+      return;
     }
 
-    function closeOverlay() {
-      const overlay = document.querySelector(".overlay");
-      
-      if (!overlay) {
-        return; 
-      }
-      
-      overlay.classList.remove('show');
-      
-      setTimeout(() => {
-        if (overlay && overlay.parentNode) {
-          document.body.removeChild(overlay);
-        }
-        document.body.style.overflow = '';
-      }, 300); 
-    }
+    const [index, url, title] = modelImg.split(',');
+    
+    const overlay = document.createElement('div');
+    const img = document.createElement('img');
+    const name = document.createElement('h1');
+    const closeButton = document.createElement('button');
+    const updateButton = document.createElement('button');
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
+    updateButton.classList.add('update-button');
+    updateButton.textContent = 'update';
+    
+    closeButton.classList.add('close-button');
+    closeButton.textContent = '×';
+    closeButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeOverlay();
+    });
+
+    updateButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      updateMovie();
+      updateButton.disabled = true;
+
+    })
+    overlay.classList.add('overlay');
+    img.src = url;
+    img.alt = title + ' poster';
+    name.textContent = title;
+    overlay.dataset.id = index;
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
         closeOverlay();
       }
     });
-
-    window.addEventListener('load', () => {
-      const existingOverlay = document.querySelector('.overlay');
-      if (existingOverlay) {
-        existingOverlay.remove();
-        document.body.style.overflow = '';
-      }
+    
+    overlay.append(img, name, closeButton, updateButton);
+    document.body.appendChild(overlay);
+    
+    document.body.style.overflow = 'hidden';
+    
+    requestAnimationFrame(() => {
+      overlay.classList.add('show');
     });
+  }
+
+  function updateMovie() {
+    const container = document.querySelector('.overlay');
+    const name = container.querySelector('h1');
+    const img = container.querySelector('img');
+
+    const formDiv = document.createElement('div');
+    formDiv.classList.add('formDiv');
+
+    formDiv.innerHTML = `
+
+      <form id="updateForm"> 
+          <label style="color: white;">Movie Name: </label>
+          <input type="text" name="name" value="${name.textContent}"/> </br>
+          <label style="color: white;">Img: </label>
+          <input type="text" name="img" value="${img.src}"/> </br>
+          <label style="color: white;"> Password: </label>
+          <input type="password" name="password" />
+        </form>
+        <button type="submit"> update </button>
+        <button onclick="removeForm()"> cancel </button>
+      
+    `;
+    container.appendChild(formDiv);
+
+    const form = document.getElementById('updateForm');
+    
+    
+
+  }
+
+  function removeForm() {
+    const container = document.querySelector('.overlay');
+    const formDiv = document.querySelector('.formDiv');
+    container.removeChild(formDiv);
+    const updatebutton = container.querySelector('.update-button');
+    updatebutton.disabled = false;
+    
+  }
+  function closeOverlay() {
+    const overlay = document.querySelector(".overlay");
+    
+    if (!overlay) {
+      return; 
+    }
+    
+    overlay.classList.remove('show');
+    
+    setTimeout(() => {
+      if (overlay && overlay.parentNode) {
+        document.body.removeChild(overlay);
+      }
+      document.body.style.overflow = '';
+    }, 300); 
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeOverlay();
+    }
+  });
+
+  window.addEventListener('load', () => {
+    const existingOverlay = document.querySelector('.overlay');
+    if (existingOverlay) {
+      existingOverlay.remove();
+      document.body.style.overflow = '';
+    }
+  });
   
   class slideMovies {
     constructor() {
