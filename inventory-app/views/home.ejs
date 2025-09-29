@@ -18,7 +18,7 @@
             <div class="movie-ctn">
                 <div class="post-container" id="postCon<%=index%>">                
                   <% movie.movies.forEach(movie => { %>
-                  <div class="movie-card">
+                  <div class="movie-card" id="movieID<%=movie.movie_id%>" onclick="openOverlay('<%=movie.movie_id%>, <%=movie.img%>, <%=movie.name%>')">
                     <img class="Posters" src="<%= movie.img %>" alt="<% movie.name %> poster"/>
                     <div class="bottom">
                       <h3><%= movie.name %></h3>
@@ -64,6 +64,82 @@
 </html>
 
 <script>
+function openOverlay(modelImg) {
+      if (document.querySelector('.overlay')) {
+        return;
+      }
+
+      const [index, url, title] = modelImg.split(',');
+      
+      const overlay = document.createElement('div');
+      const img = document.createElement('img');
+      const name = document.createElement('h1');
+      const closeButton = document.createElement('button');
+      const updateButton = document.createElement('button');
+
+      updateButton.classList.add('updae-button');
+      updateButton.textContent = 'update';
+      
+      closeButton.classList.add('close-button');
+      closeButton.textContent = '×';
+      closeButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeOverlay();
+      });
+
+
+      overlay.classList.add('overlay');
+      img.src = url;
+      img.alt = title + ' poster';
+      name.textContent = title;
+      
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          closeOverlay();
+        }
+      });
+      
+      overlay.append(img, name, closeButton, updateButton);
+      document.body.appendChild(overlay);
+      
+      document.body.style.overflow = 'hidden';
+      
+      requestAnimationFrame(() => {
+        overlay.classList.add('show');
+      });
+    }
+
+    function closeOverlay() {
+      const overlay = document.querySelector(".overlay");
+      
+      if (!overlay) {
+        return; 
+      }
+      
+      overlay.classList.remove('show');
+      
+      setTimeout(() => {
+        if (overlay && overlay.parentNode) {
+          document.body.removeChild(overlay);
+        }
+        document.body.style.overflow = '';
+      }, 300); 
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeOverlay();
+      }
+    });
+
+    window.addEventListener('load', () => {
+      const existingOverlay = document.querySelector('.overlay');
+      if (existingOverlay) {
+        existingOverlay.remove();
+        document.body.style.overflow = '';
+      }
+    });
+  
   class slideMovies {
     constructor() {
       this.slideState = {};
@@ -134,10 +210,10 @@
 
 
 
-  window.addEventListener('resize', () => {
-    Object.keys(slideButton, slideButton.slideState).forEach(index => {
-      slideButton.updateSliderData(index)
-    })
+window.addEventListener('resize', () => {
+  Object.keys(slideButton.slideState).forEach(index => {
+    slideButton.updateSliderData(index);
   });
+});
   
 </script>

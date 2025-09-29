@@ -105,6 +105,24 @@ async function insertMovies(name, img_data){
   }
 }
 
+async function updateMovie(id, name, img) {
+  try {
+    await pool.query(
+      `
+      UPDATE movies
+      SET 
+        name = $1,
+        img = $2
+      WHERE movie_id = $3
+      `,
+      [name, img, id]
+    );
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
 async function del_movie(id, password) {
   try {
     const { rows } = await pool.query(
@@ -144,5 +162,6 @@ module.exports = {
   getCat_movieArray, 
   insertCat_movies,
   insertMovies,
-  specific_movie_id
+  specific_movie_id,
+  updateMovie
 };
