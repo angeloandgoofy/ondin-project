@@ -112,7 +112,7 @@ async function updateMovie(id, name, img) {
       UPDATE movies
       SET 
         name = $1,
-        img = $2
+        img_data = $2
       WHERE movie_id = $3
       `,
       [name, img, id]

@@ -60,11 +60,12 @@ async function addMovietoCat(req, res) {
 
 async function updateMovie(req, res){
   try{
-    const {movieId} = req.params;
-    const {movieName, movieImg} = req.body;
-    await db.updateMovie(movieId, movieName, movieImg);
-    await getArray_movies();
-  }catch(err){
+    const {id} = req.params;
+    const {name, img} = req.body;
+    await db.updateMovie(id, name, img);
+    const movie_cat = await db.getCat_movieArray();
+    res.render('home', {movie_cat: Array.isArray(movie_cat) ? movie_cat : []});
+    }catch(err){
     console.error("Error updating movie");
     res.status(500).json({err: "Internal server error"});
   }

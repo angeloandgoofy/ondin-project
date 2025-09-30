@@ -7,6 +7,20 @@
   <link rel="stylesheet" href="/homeStyle.css" />
   <title>Movies & Categories</title>
 </head>
+<style>
+  .formDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+  }
+  .formDiv button{
+    border: none;
+
+    transform: translateX(50%);
+  }
+</style>
 <body>
   <%- include('navbar') %>
   <%- include('display') %>
@@ -114,35 +128,66 @@
     });
   }
 
-  function updateMovie() {
-    const container = document.querySelector('.overlay');
-    const name = container.querySelector('h1');
-    const img = container.querySelector('img');
+function updateMovie() {
+  const container = document.querySelector('.overlay');
+  const name = container.querySelector('h1');
+  const img = container.querySelector('img');
 
-    const formDiv = document.createElement('div');
-    formDiv.classList.add('formDiv');
+  const formDiv = document.createElement('div');
+  formDiv.classList.add('formDiv');
 
-    formDiv.innerHTML = `
+  formDiv.innerHTML = `
+    <form class="updateForm">
+      <label style="color: white;">Movie Name: </label>
+      <input type="text" name="name" value="${name.textContent}" /> <br>
+      <label style="color: white;">Img: </label>
+      <input type="text" name="img" value="${img.src}" /> <br>
+      <label style="color: white;">Password: </label>
+      <input type="password" name="password" />
+      <br>
+      <button type="submit">Update</button>
+      <button type="button" onclick="removeForm()">Cancel</button>
+    </form>
+  `;
 
-      <form id="updateForm"> 
-          <label style="color: white;">Movie Name: </label>
-          <input type="text" name="name" value="${name.textContent}"/> </br>
-          <label style="color: white;">Img: </label>
-          <input type="text" name="img" value="${img.src}"/> </br>
-          <label style="color: white;"> Password: </label>
-          <input type="password" name="password" />
-        </form>
-        <button type="submit"> update </button>
-        <button onclick="removeForm()"> cancel </button>
-      
-    `;
-    container.appendChild(formDiv);
+  container.appendChild(formDiv);
+  const id = container.dataset.id;
 
-    const form = document.getElementById('updateForm');
-    
-    
+  const form = formDiv.querySelector('.updateForm');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-  }
+    const formData = {
+      name: form.elements.name.value,
+      img: form.elements.img.value,
+      password: form.elements.password.value
+    };
+
+    try {
+      const response = await fetch(`/movie/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+
+       if (response.ok) {
+
+        container.querySelector('img').src = formData.img;
+        container.querySelector('h1').textContent = formData.name;
+        removeForm();
+        
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+        
+      }
+    } catch (err) {
+      console.error("Update failed:", err);
+    }
+  });
+}
 
   function removeForm() {
     const container = document.querySelector('.overlay');
