@@ -34,8 +34,8 @@ async function getArray_movies(req, res) {
 async function del_movie(req, res) {
   try{
     const numberId = Number(req.params.movie_id);
-    const {Password} = req.body;
-    await db.del_movie(numberId, Password);
+    const {password} = req.body;    
+    await db.del_movie(numberId, password);
     res.redirect("/");
     }catch(err){
     console.error("ERROR DELETING FROM DB: ", err);
@@ -61,8 +61,8 @@ async function addMovietoCat(req, res) {
 async function updateMovie(req, res){
   try{
     const {id} = req.params;
-    const {name, img} = req.body;
-    await db.updateMovie(id, name, img);
+    const {name, img, password} = req.body;
+    await db.updateMovie(id, name, img, password);
     const movie_cat = await db.getCat_movieArray();
     res.render('home', {movie_cat: Array.isArray(movie_cat) ? movie_cat : []});
     }catch(err){

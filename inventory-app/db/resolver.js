@@ -105,8 +105,31 @@ async function insertMovies(name, img_data){
   }
 }
 
-async function updateMovie(id, name, img) {
+async function updateMovie(id, name, img, password) {
   try {
+    const { rows } = await pool.query(
+      `
+      SELECT u.password
+      FROM movies m
+      LEFT JOIN users u ON u.user_id = m.user_id
+      WHERE m.movie_id = $1
+      `, [id]
+    )
+
+    if(rows.length === 0) {
+      throw new Error('Could not update');
+    }
+
+    const pass = rows[0].password;
+
+    if(pass){
+      const match = await bcrypt.compare(password, pass);
+      if(!match){
+        throw new Error('Invalid password');
+      }
+    }
+
+
     await pool.query(
       `
       UPDATE movies
@@ -125,28 +148,28 @@ async function updateMovie(id, name, img) {
 
 async function del_movie(id, password) {
   try {
-    const { rows } = await pool.query(
+     const { rows } = await pool.query(
       `
       SELECT u.password
       FROM movies m
       LEFT JOIN users u ON u.user_id = m.user_id
       WHERE m.movie_id = $1
-      `,
-      [id]
-    );
+      `, [id]
+    )
 
-    if (rows.length === 0) {
-      throw new Error('Movie not found');
+    if(rows.length === 0) {
+      throw new Error('Could not update');
     }
 
-    const passW = rows[0].password;
+    const pass = rows[0].password;
 
-    if (passW) {
-      const match = await bcrypt.compare(password, passW);
-      if (!match) {
-        throw new Error('Invalid password — cannot delete movie');
+    if(pass){
+      const match = await bcrypt.compare(password, pass);
+      if(!match){
+        throw new Error('Invalid password');
       }
     }
+    
     await pool.query(`DELETE FROM movies WHERE movie_id = $1`, [id]);
   } catch (err) {
     console.error('Error deleting movie:', err);

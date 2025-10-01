@@ -37,32 +37,29 @@
                     <div class="bottom">
                       <h3><%= movie.name %></h3>
                       <div id="delete-form-<%= movie.movie_id %>" class="hidden"
-                       style="
-                        padding: 10px;
-                        padding-left: 50px;
-                        padding-right: 50px;
-                        "
-                       >
-                        <form action="/<%= movie.movie_id %>/delete" method="POST" style="display:inline;">
-                          <label>Password:</label>
-                          <input type="password" name="password"/><br/>
-                          <button style="border-radius: 10px; background-color: rgb(80, 122, 122);" type="submit">
-                            Enter
-                          </button>
-                          <button
-                            style="border-radius: 10px; background-color: rgb(80, 122, 122);"
-                            type="button"
-                            onclick="document.getElementById('delete-form-<%= movie.movie_id %>').classList.toggle('hidden')">
-                            close
-                          </button>
-                        </form>
-                      </div>
-                      <button
-                        style="border-radius: 10px; background-color: rgb(80, 122, 122);"
-                        type="button"
-                        onclick="document.getElementById('delete-form-<%= movie.movie_id %>').classList.toggle('hidden')">
-                        Delete
-                      </button>
+                      style="padding: 10px; padding-left: 50px; padding-right: 50px;">
+                      <form action="/<%= movie.movie_id %>/delete" method="POST" style="display:inline;">
+                        <label>Password:</label>
+                        <input type="password" name="password" onclick="event.stopPropagation()"/><br/>
+                        <button style="border-radius: 10px; background-color: rgb(80, 122, 122);" 
+                                type="submit"
+                                onclick="event.stopPropagation()">
+                          Enter
+                        </button>
+                        <button
+                          style="border-radius: 10px; background-color: rgb(80, 122, 122);"
+                          type="button"
+                          onclick="event.stopPropagation(); document.getElementById('delete-form-<%= movie.movie_id %>').classList.toggle('hidden')">
+                          close
+                        </button>
+                      </form>
+                    </div>
+                    <button
+                      style="border-radius: 10px; background-color: rgb(80, 122, 122);"
+                      type="button"
+                      onclick="event.stopPropagation(); document.getElementById('delete-form-<%= movie.movie_id %>').classList.toggle('hidden')">
+                      Delete
+                    </button>
                     </div>
                   </div>
                   <% }) %>
