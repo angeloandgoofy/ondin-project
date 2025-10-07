@@ -27,7 +27,7 @@ export const useApiCall = () => {
           }
           const response = await Promise.all(promises);
           setData(response); 
-          localStorage.setItem("mydata", JSON.stringify(response)); // ✅ store as string
+          localStorage.setItem("mydata", JSON.stringify(response)); 
         } catch (err) {
           console.error("Something went wrong:", err);
         }

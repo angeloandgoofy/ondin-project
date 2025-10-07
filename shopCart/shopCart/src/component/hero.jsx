@@ -16,7 +16,6 @@ export default function Hero(){
                         <div className="overlay"> 
                             <h1>Made with Care</h1>
                             <Link to="shop"><button className='oButton'>SHOP</button></Link>
-                            
                         </div>
                     </div>
                 )}
