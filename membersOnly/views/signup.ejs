@@ -5,28 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    label{
+        color: white;
+    }
+    form {
+        display: block;
+        width: 100%;
+        max-width: 450px;
+        padding: 40px;       
+    }
+
+    input[type='text'],
+    input[type='password']{
+        width: 100%;
+        border: none;
+        margin-bottom: 14px;
+
+    }
+
+    button{
+        background: linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%);
+        color: #333;
+        font-weight: 700;
+        border: none;
+        border-radius: 50px;
+        padding: 10px;
+    }
+    .banner {
+        position: absolute;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+        text-align: center;
+        font-weight: bold;
+        left: 0;
+
+    }
+    .success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    .error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+</style>
 <body>
-    <% include(navbar) %>
-    
-    <form method="POST">
-        <fieldset>
-            <label>
-                First Name:
-            </label>
-            <input require name="firstname" placeholder="John"/> </br>
-            <label>
-                Last Name:
-            </label>
-            <input require name="lastname" placeholder="Doe"/> </br>
-            <label>
-                Email:
-            </label>
-            <input require name="email" placeholder="JohnDoe@gmail.com"/> </br>
-            <label>
-                Password:
-            </label>
-                <input requrie name="password"/> </br>
-        </fieldset>
-    </form>
+    <%- include('navbar') %>
+    <main>
+        <div style="
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);      
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        ">
+            <h1 style="color: white;">
+                Sign Up
+            </h1>
+            <div
+            style=
+            "
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: auto;
+                width: auto;
+                min-width: auto;
+                "
+                >
+        
+            <form method="POST">
+                <label>
+                    First Name:
+                </label>
+                <input required type="text" name="firstname" placeholder="John"/> </br>
+                <label>
+                    Last Name:
+                </label>
+                <input required type="text" name="lastname" placeholder="Doe"/> </br>
+                <label>
+                    Email:
+                </label>
+                <input required type="text" name="email" placeholder="JohnDoe@gmail.com"/> </br>
+                <label>
+                    Password:
+                </label>
+                <input type="password" requrie name="password"/> </br>
+                <button type="submit">
+                    submit
+                </button>
+            </form>
+            </div>
+        </div>
+        <% if (success) { %>
+        <div class="banner success"><%= success %></div>
+        <% } else if (error) { %>
+        <div class="banner error"><%= error %></div>
+        <% } %>
+    </main>
 </body>
 </html>
