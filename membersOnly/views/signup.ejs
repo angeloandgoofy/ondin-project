@@ -36,20 +36,23 @@
         position: absolute;
         padding: 10px;
         margin-bottom: 15px;
+        margin-top: 30px;
         border-radius: 4px;
         text-align: center;
         font-weight: bold;
         left: 0;
-
     }
+
     .success {
         background-color: #d4edda;
         color: #155724;
     }
+
     .error {
         background-color: #f8d7da;
         color: #721c24;
     }
+    
 </style>
 <body>
     <%- include('navbar') %>
@@ -82,13 +85,13 @@
                 >
         
             <form method="POST">
-                <label>
+                <label for="firstname">
                     First Name:
                 </label>
                 <input required type="text" name="firstname" placeholder="John"/> </br>
                 <label>
                     Last Name:
-                </label>
+                </label for="lastname">
                 <input required type="text" name="lastname" placeholder="Doe"/> </br>
                 <label>
                     Email:
@@ -112,3 +115,14 @@
     </main>
 </body>
 </html>
+
+<script>
+    const banner = document.querySelector('.banner');
+    
+    setInterval(() => {
+        if(banner && banner.parentNode){
+            banner.remove();
+        }
+    }, 3000);
+
+</script>

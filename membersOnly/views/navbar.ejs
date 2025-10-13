@@ -35,6 +35,15 @@
         gap: 40px;
         align-items: center;
     }
+    label{
+        color: white;
+    }
+    form{
+        display: block;
+        width: 100%;
+        max-width: 450px;
+        border: none;
+    }
     a {
         text-decoration: none;
         padding: 10px 24px;
@@ -73,6 +82,24 @@
         color: #000;
         box-shadow: 0 4px 15px rgba(168, 255, 120, 0.4);
     }
+    .ctn{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 999;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);  
+        display: flex;
+        flex-direction: column;
+        transition: opacity 0.3s ease;
+        opacity: 0;
+        width: 400px;
+        height: 400px;
+    }
+    .ctn.show {
+        opacity: 1;
+    }
 
 </style>
 <body>
@@ -97,17 +124,17 @@
         if (existingOverlay) {
             existingOverlay.remove();
             document.body.style.overflow = '';
+            return;
         }
         const container = document.createElement('div');
         const closeButton = document.createElement('button');
-        
         container.classList.add('ctn');
         closeButton.classList.add('cls-button');
         closeButton.textContent = 'x';
         container.innerHTML =  
         `
         <form> 
-            label>
+            <label>
                 Email:
             </label>
             <input require name="email" placeholder="JohnDoe@gmail.com"/> </br>
@@ -123,9 +150,19 @@
             removeLogin();
         })
         
+        container.addEventListener('click', (e) => {
+            if(e.target ===  container){
+                removeLogin();
+            }
+        })
         container.append(closeButton);
         document.body.appendChild(container);
+
+        document.body.style.overflow = 'hidden';
         
+        requestAnimationFrame(() => {
+            container.classList.add('show');
+        })
     }
 
     function removeLogin() {
@@ -134,6 +171,8 @@
         if(!container){
             return;
         }
+
+        container.classList.remove('show');
 
         setTimeout(() => {
            if(container && container.parentNode){
