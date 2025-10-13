@@ -72,7 +72,6 @@
         transform: scale(1.05);
         color: #a8ff78;
     }
-
     a:last-child{
         background: linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%);
         color: #333;
@@ -93,12 +92,22 @@
         display: flex;
         flex-direction: column;
         transition: opacity 0.3s ease;
+        justify-content: center;
+        align-items: center;
         opacity: 0;
-        width: 400px;
-        height: 400px;
+        width: 100%;
+        height: 100%;
     }
     .ctn.show {
         opacity: 1;
+    }
+
+    input[type='text'],
+    input[type='password']{
+        width: 100%;
+        border: none;
+        margin-bottom: 14px;
+
     }
 
 </style>
@@ -133,15 +142,15 @@
         closeButton.textContent = 'x';
         container.innerHTML =  
         `
-        <form> 
+        <form method="POST"> 
             <label>
                 Email:
             </label>
-            <input require name="email" placeholder="JohnDoe@gmail.com"/> </br>
+            <input required type="text" name="email" /> </br>
             <label>
                 Password:
             </label>
-                <input requrie name="password"/> </br>
+                <input required type="password" name="password"/> </br>
         </form>
         `
         

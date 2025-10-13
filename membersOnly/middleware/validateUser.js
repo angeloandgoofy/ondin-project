@@ -12,6 +12,13 @@ const validateUser = [
   .isStrongPassword().withMessage(`Password ${passStrengthErr}`),
   body("email").trim()
   .isEmail().withMessage("Email not valid"),
+  body("Confirmpassword").trim()
+  .custom((value, {req}) => {
+    if(value !== req.body.password){
+      throw new Error("Passwords to not match");
+    }
+    return true;
+  }),
 ];
 
 module.exports = validateUser;

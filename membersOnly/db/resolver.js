@@ -2,7 +2,6 @@ const pool = require('./pool');
 const bcrypt = require('bcrypt');
 
 async function signup(fname, lname, email, password){
-    console.log(fname, lname, email, password);
     try{
         const { rows } = await pool.query(`
         SELECT email 

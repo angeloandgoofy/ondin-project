@@ -1,4 +1,3 @@
-const { isValidElement } = require('react');
 const db = require('../db/resolver');
 const { validationResult, matchedData } = require("express-validator");
 

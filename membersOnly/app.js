@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(signupRouter);
 
 app.get("/", (req, res) => {
-res.render('home');
+    res.render('home');
 });
 
 app.listen(3000, err => {
